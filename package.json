@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://Gedankenpfade.github.io/Gedankenpfade",
+  "homepage": "https://gedankenpfade.github.io/",
   "dependencies": {
     "vue": "^3.5.21"
   },
