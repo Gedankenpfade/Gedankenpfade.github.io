@@ -2,7 +2,16 @@
 </script>
 
 <template>
-  <p>
-    Just plain Text.
-  </p>
+  <div class="body">
+    <router-view />
+  </div>
 </template>
+
+<style>
+.body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>
