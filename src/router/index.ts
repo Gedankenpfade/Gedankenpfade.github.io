@@ -5,6 +5,9 @@ import QueerBookshelf from '../pages/QueerBookshelf.vue';
 import FanfictionBookshelf from '../pages/FanfictionBookshelf.vue';
 import AutismBookshelf from '../pages/AutismBookshelf.vue';
 import AuthorSpace from '../pages/AuthorSpace.vue';
+import Book from '../pages/Book.vue';
+import Chapter from '../pages/Chapter.vue'
+import RandomBookshelf from '../pages/RandomBookshelf.vue';
 
 const routes = [
   {
@@ -26,6 +29,21 @@ const routes = [
     path: '/autismus',
     name: 'Autismus (er)leben',
     component: AutismBookshelf,
+  },
+  {
+    path: '/andere',
+    name: 'Andere Werke',
+    component: RandomBookshelf,
+  },
+  {
+    path: '/:title',
+    name: 'Inhaltsverzeichnis',
+    component: Book,
+  }, 
+  {
+    path: '/:title/:chapter',
+    name: 'Kapitel',
+    component: Chapter
   },
   {
     path: '/authorspace',

@@ -16,6 +16,7 @@ const numOfStars = ref(20);
       'queer-footer': props.type == 'queer',
       'autism-footer': props.type == 'autism',
       'fanfiction-footer': props.type == 'ff',
+      'others-footer': props.type == 'other',
     }"
   >
     <div  class="star"></div>
@@ -32,13 +33,16 @@ footer {
 }
 
 .main-footer {
-
   background-color: orangered;
 }
 
-  .autism-footer {
-    background: linear-gradient(to bottom, #512179, #290344);
-    position: relative;
+.others-footer {
+  background-color: rgb(107, 233, 255);
+}
+
+.autism-footer {
+  background: linear-gradient(to bottom, #512179, #290344);
+  position: relative;
 
     .star {
       position: absolute;

@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
+import { computed, inject, ref, type Ref } from "vue";
+import { RouterLink } from "vue-router";
+
 const props = defineProps<{
   title: string;
   type: string;
 }>();
+
+const loggedIn = inject("loggedIn") as Ref<boolean>; 
+
+const loginLogout = computed(() => {
+  if (!loggedIn) {
+    return "none"
+  }
+  if (loggedIn.value == true) {
+    return "Logout"
+  } else {
+    return "Login"
+  }
+})
 
 const numOfStars = ref(20);
 </script>
@@ -15,22 +30,65 @@ const numOfStars = ref(20);
       'queer-header': props.type == 'queer',
       'autism-header': props.type == 'autism',
       'fanfiction-header': props.type == 'ff',
+      'others-header': props.type == 'other',
     }"
   >
     <div v-if="type == 'autism'" v-for="_ in numOfStars" class="star"></div>
-    <p>{{ title }}</p>
+    <div v-if="type != 'main'" class="navigation">
+
+      <!-- Pfeil richtig justieren - zu hoch! -->
+      <RouterLink to="/"><img src="../assets/arrow-big-left.svg" class="back"/></RouterLink>
+      <h2>{{ title }}</h2>
+      <div></div>
+    </div>
+
+    <div v-else class="navigation main">
+      <RouterLink to="/"><img src="../assets/icon.png" class="icon"/></RouterLink>
+      <h1>{{ title }}</h1>
+
+      <button @click="$emit('login')"> {{ loginLogout }}</button>
+    </div>
   </header>
 </template>
 
 <style scoped>
+.icon {
+  height: 4rem;
+}
+
+.back {
+  height: 2rem;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  width: 70%;
+  align-items: center;
+}
+
+.main {
+  justify-content: center;
+  gap: 4rem;
+}
+
 header {
   height: 5rem;
-  align-content: center;
+  justify-content: center;
+
+  display: flex;
 }
 
 .main-header {
   background-color: orangered;
 }
+
+.others-header {
+  background-color: rgb(107, 233, 255);
+}
+
 
 .autism-header {
   background: linear-gradient(to bottom, #290344, #512179);

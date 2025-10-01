@@ -1,0 +1,53 @@
+:root {
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+  margin: 0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-shadow: 0.5px 0.5px 0.5px darkorchid;
+}
+
+hr {
+    width: 40%;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  @media screen and (min-width: 1512px) {
+      width: 30%;
+
+  }
+}
+
+.content-container::-webkit-scrollbar {
+  display: none; /* Definiere das Pseudoelement außerhalb der Klasse */
+}

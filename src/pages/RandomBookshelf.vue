@@ -7,16 +7,15 @@ import { useBooksStore } from '../stores/useBooks';
 const bookStore = useBooksStore();
 
 onMounted(async () => {
-    await bookStore.fetchFfBooks();
+    await bookStore.fetchOtherBooks();
 })
 </script>
 
 <template>
-    <TheHeader type="ff" title="Fanfiction" />
-
+    <TheHeader type="other" title="Andere Werke" />
     <div class="content-container">
-        <div class="shelf">
-            <div v-for="book in bookStore.ffBooks" class="book-details">
+    <div class="shelf">
+            <div v-for="book in bookStore.otherBooks" class="book-details">
                 <div class="cover-img">
 
                 </div>
@@ -44,7 +43,7 @@ onMounted(async () => {
         </div>
     </div>
 
-    <TheFooter type="ff" title="" />
+    <TheFooter type="other" title="" />
 </template>
 
 <style scoped>
