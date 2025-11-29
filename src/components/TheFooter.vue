@@ -16,6 +16,7 @@ const numOfStars = ref(20);
       'queer-footer': props.type == 'queer',
       'autism-footer': props.type == 'autism',
       'fanfiction-footer': props.type == 'ff',
+      'glasschild-footer': props.type == 'glasschild',
       'others-footer': props.type == 'other',
     }"
   >
@@ -189,6 +190,10 @@ footer {
 
 .fanfiction-footer {
   background: linear-gradient(to bottom, #234fc7, #011135);
+}
+
+.glasschild-footer {
+  background: linear-gradient(to bottom, #37cdff, #b3e5f5);
 }
 
 .footer-text {

@@ -10,16 +10,28 @@ const bookStore = useBooksStore();
 const route = useRoute()
 const currentBook = ref({} as Book | null)
 
+const headerFooterClass = ref('');
+
 onMounted(async () => {
     if (route != undefined) {
-        const routeAsString = route.params.title as string
-        currentBook.value = await bookStore.getBookByName(routeAsString, 'queer')
+        const titleAsString = route.params.title as string
+        const categoryAsString = route.params.category as string;
+        if (categoryAsString == "queer") {
+            currentBook.value = await bookStore.getBookByName(titleAsString, 'queer')
+            headerFooterClass.value = 'queer';
+        } else {
+            currentBook.value = await bookStore.getBookByName(titleAsString, 'glasschild')
+            headerFooterClass.value = 'glasschild';
+        }
+        
     }
+
+    console.log(currentBook.value);
 })
 </script>
 
 <template>
-    <TheHeader title="" type="queer"/>
+    <TheHeader title="" :type="headerFooterClass"/>
         <div class="content-container">
             <div class="description">
                 <p>
@@ -40,11 +52,11 @@ onMounted(async () => {
             <div class="content">
                 <h3>Inhalt:</h3>
                 <ol v-if="currentBook" class="contentlist">
-                    <li v-for="chap, idx in currentBook?.content"><RouterLink :to="{name:'Kapitel', params: {title: currentBook.title.toString(), chapter: idx+1}}">{{ chap.title }}</RouterLink></li>
+                    <li v-for="chap, idx in currentBook?.content"><RouterLink :to="{name:'Kapitel', params: {category: currentBook.category.toString(), title: currentBook.title.toString(), chapter: idx+1}}">{{ chap.title }}</RouterLink></li>
                 </ol>
             </div>
         </div>
-    <TheFooter title="" type="queer" />
+    <TheFooter title="" :type="headerFooterClass" />
 </template>
 
 <style scoped>

@@ -4,7 +4,6 @@ import { useBooksStore } from '../stores/useBooks';
 import type { Book, Chapter } from '../types/book';
 import { onMounted, ref } from 'vue';
 import TheFooter from '../components/TheFooter.vue';
-import TheHeader from '../components/TheHeader.vue';
 
 const bookStore = useBooksStore();
 const route = useRoute()
@@ -12,10 +11,19 @@ const route = useRoute()
 const currentBook = ref({} as Book | null)
 const chapter = ref({} as Chapter | undefined)
 
+const footerClass = ref("");
+
 onMounted(async () => {
     if (route != undefined) {
         const titleAsString = route.params.title as string
-        currentBook.value = await bookStore.getBookByName(titleAsString, 'queer')
+        const categoryAsString = route.params.category as string;
+        if (categoryAsString == "queer") {
+            currentBook.value = await bookStore.getBookByName(titleAsString, 'queer')
+            footerClass.value = 'queer';
+        } else {
+            currentBook.value = await bookStore.getBookByName(titleAsString, 'glasschild')
+            footerClass.value = 'glasschild';
+        }
         chapter.value = currentBook.value?.content.find((chapter) => chapter.id === parseInt(route.params.chapter as string))
     }
 })
@@ -32,7 +40,7 @@ onMounted(async () => {
 
     <!-- ToDo: Navigation vorheriges / nächstes Kapitel -->
 
-    <TheFooter type="queer" title="" />
+    <TheFooter :type=footerClass title="" />
 </template>
 
 <style scoped>

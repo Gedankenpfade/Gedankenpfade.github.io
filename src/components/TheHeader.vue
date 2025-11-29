@@ -30,6 +30,7 @@ const numOfStars = ref(20);
       'queer-header': props.type == 'queer',
       'autism-header': props.type == 'autism',
       'fanfiction-header': props.type == 'ff',
+      'glasschild-header' : props.type == 'glasschild',
       'others-header': props.type == 'other',
     }"
   >
@@ -37,7 +38,7 @@ const numOfStars = ref(20);
     <div v-if="type != 'main'" class="navigation">
 
       <!-- Pfeil richtig justieren - zu hoch! -->
-      <RouterLink to="/"><img src="../assets/arrow-big-left.svg" class="back"/></RouterLink>
+      <RouterLink to="'/'"><img src="../assets/arrow-big-left.svg" class="back"/></RouterLink>
       <h2>{{ title }}</h2>
       <div></div>
     </div>
@@ -86,7 +87,7 @@ header {
 }
 
 .others-header {
-  background-color: rgb(107, 233, 255);
+  background-color: rgb(16, 255, 56);
 }
 
 
@@ -238,6 +239,10 @@ header {
 
 .fanfiction-header {
   background: linear-gradient(to bottom, #011135, #234fc7);
+}
+
+.glasschild-header {
+  background: linear-gradient(to bottom, #b3e5f5, #37cdff);
 }
 
 .header-text {

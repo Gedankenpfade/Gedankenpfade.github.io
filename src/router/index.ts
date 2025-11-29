@@ -8,6 +8,7 @@ import AuthorSpace from '../pages/AuthorSpace.vue';
 import Book from '../pages/Book.vue';
 import Chapter from '../pages/Chapter.vue'
 import RandomBookshelf from '../pages/RandomBookshelf.vue';
+import ChildOfGlassBookshelf from '../pages/ChildOfGlassBookshelf.vue'
 
 const routes = [
   {
@@ -36,12 +37,17 @@ const routes = [
     component: RandomBookshelf,
   },
   {
-    path: '/:title',
+    path: '/child-of-glass',
+    name: 'Child of Glass',
+    component: ChildOfGlassBookshelf,
+  },
+  {
+    path: '/:category/:title',
     name: 'Inhaltsverzeichnis',
     component: Book,
   }, 
   {
-    path: '/:title/:chapter',
+    path: '/:category/:title/:chapter',
     name: 'Kapitel',
     component: Chapter
   },

@@ -11,4 +11,5 @@ export type Book = {
     description: string;
     content: Chapter[];
     createdBy: String;
+    category: String;
 };

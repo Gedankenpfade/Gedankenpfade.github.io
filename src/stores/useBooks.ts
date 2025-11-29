@@ -9,6 +9,7 @@ export const useBooksStore = defineStore('books', () => {
     const ffBooks = ref<Book[]>([]);
     const otherBooks = ref<Book[]>([]);
     const autismBooks = ref<Book[]>([]);
+    const glassChildBooks = ref<Book[]>([]);
 
     async function fetchQueerBooks() {
         if (queerBooks.value.length == 0) {
@@ -29,6 +30,7 @@ export const useBooksStore = defineStore('books', () => {
                     //id: 0,
                     description: data.beschreibung,
                     content,
+                    category: data.kategorie,
                 } as Book
             }))
         }
@@ -53,6 +55,7 @@ export const useBooksStore = defineStore('books', () => {
                     //id: 0,
                     description: data.beschreibung,
                     content,
+                    category: data.kategorie,
                 } as Book
             }))
         }
@@ -77,6 +80,7 @@ export const useBooksStore = defineStore('books', () => {
                     //id: 0,
                     description: data.beschreibung,
                     content,
+                    category: data.kategorie,
                 } as Book
             }))
         }
@@ -101,6 +105,32 @@ export const useBooksStore = defineStore('books', () => {
                     //id: 0,
                     description: data.beschreibung,
                     content,
+                    category: data.kategorie,
+                } as Book
+            }))
+        }
+    }
+
+    async function fetchGlassChildBooks() {
+        if (glassChildBooks.value.length == 0) { 
+            const booksCollection = collection(db, 'glasschild-books')
+        
+            glassChildBooks.value = await Promise.all((await getDocs(booksCollection)).docs.map(async (doc) => {
+                const data = doc.data();
+                const chaptersCollection = collection(doc.ref, 'Inhalt');
+                const content: Chapter[] = (await getDocs(chaptersCollection)).docs.map(chapterDoc => ({
+                    title: chapterDoc.data().titel,
+                    content: chapterDoc.data().text,
+                    id: chapterDoc.data().id
+                }))
+
+                return {
+                    title: data.titel,
+                    author: data.autor,
+                    //id: 0,
+                    description: data.beschreibung,
+                    category: data.kategorie,
+                    content,
                 } as Book
             }))
         }
@@ -111,6 +141,7 @@ export const useBooksStore = defineStore('books', () => {
         await fetchFfBooks();
         await fetchOtherBooks();
         await fetchAutismBooks();
+        await fetchGlassChildBooks();
     }
 
     async function getBookByName(name: string, category: string): Promise<Book | null> {
@@ -120,6 +151,18 @@ export const useBooksStore = defineStore('books', () => {
             }
 
             const res = queerBooks.value.find((book) => book.title === name);
+
+            if (res === undefined) {
+                return null; // Rückgabe von null, wenn kein Buch gefunden wurde
+            } else {
+                return res; // Rückgabe des gefundenen Buches
+            }
+        } else if(category == "glasschild") {
+            if (glassChildBooks.value.length === 0) {
+                await fetchGlassChildBooks();
+            }
+
+            const res = glassChildBooks.value.find((book) => book.title === name);
 
             if (res === undefined) {
                 return null; // Rückgabe von null, wenn kein Buch gefunden wurde
@@ -190,11 +233,13 @@ export const useBooksStore = defineStore('books', () => {
         fetchFfBooks,
         fetchOtherBooks,
         fetchAutismBooks,
+        fetchGlassChildBooks,
         getAllBooks,
         queerBooks,
         ffBooks,
         otherBooks,
         autismBooks,
+        glassChildBooks,
         getBookByName,
         addNewBook,
     }
