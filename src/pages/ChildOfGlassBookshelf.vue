@@ -37,8 +37,6 @@ onMounted(async () => {
 
                     <RouterLink :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">Jetzt lesen -> </RouterLink>
                 </div>
-
-                
             </div>
         </div>
     </div>

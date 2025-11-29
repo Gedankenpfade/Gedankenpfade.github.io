@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { computed, inject, ref, type Ref } from "vue";
 import { RouterLink } from "vue-router";
+import router from '../router';
 
 const props = defineProps<{
   title: string;
   type: string;
+  returnPath?: string;
 }>();
+
+function navigateToReturnPath() {
+  if (props.returnPath == undefined) {
+    router.push( {name: 'Home'})
+  } else {
+    router.push( {name: props.returnPath});
+  }
+}
 
 const loggedIn = inject("loggedIn") as Ref<boolean>; 
 
@@ -38,7 +48,7 @@ const numOfStars = ref(20);
     <div v-if="type != 'main'" class="navigation">
 
       <!-- Pfeil richtig justieren - zu hoch! -->
-      <RouterLink to="'/'"><img src="../assets/arrow-big-left.svg" class="back"/></RouterLink>
+      <img src="../assets/arrow-big-left.svg" @click="navigateToReturnPath()" class="back"/>
       <h2>{{ title }}</h2>
       <div></div>
     </div>

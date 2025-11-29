@@ -11,6 +11,7 @@ const route = useRoute()
 const currentBook = ref({} as Book | null)
 
 const headerFooterClass = ref('');
+const returnPath = ref('')
 
 onMounted(async () => {
     if (route != undefined) {
@@ -19,9 +20,11 @@ onMounted(async () => {
         if (categoryAsString == "queer") {
             currentBook.value = await bookStore.getBookByName(titleAsString, 'queer')
             headerFooterClass.value = 'queer';
+            returnPath.value = "Queer"
         } else {
             currentBook.value = await bookStore.getBookByName(titleAsString, 'glasschild')
             headerFooterClass.value = 'glasschild';
+            returnPath.value = 'Child of Glass';
         }
         
     }
@@ -31,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <TheHeader title="" :type="headerFooterClass"/>
+    <TheHeader title="" :type="headerFooterClass" :return-path="returnPath"/>
         <div class="content-container">
             <div class="description">
                 <p>
