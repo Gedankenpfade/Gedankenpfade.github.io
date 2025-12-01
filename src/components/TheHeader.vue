@@ -252,7 +252,7 @@ header {
 }
 
 .glasschild-header {
-  background: linear-gradient(to bottom, #b3e5f5, #37cdff);
+  background: linear-gradient(to bottom, #37cdff, #b3e5f5);
 }
 
 .header-text {

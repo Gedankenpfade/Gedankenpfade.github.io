@@ -13,10 +13,11 @@ onMounted(async () => {
 
 <template>
     <TheHeader type="glasschild" title="Child of Glass" />
+    <div class="background-container glasschild-bg">
     <div class="content-container">
     <div class="shelf">
             <div v-for="book in bookStore.glassChildBooks" class="book-details">
-                <div class="cover-img">
+                <div class="book-cover">
 
                 </div>
                 <div class="bookshelf-description">
@@ -40,9 +41,17 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-
+</div>
     <TheFooter type="glasschild" title="" />
 </template>
 
-<style scoped>
+<style>
+.glasschild-bg {
+    background: radial-gradient(circle, 
+    rgba(255, 255, 255, 0), /* Weiß */
+    rgba(176, 224, 230, 0.4), /* Powder Blue */
+    rgba(173, 216, 230, 0.4), /* Light Blue */
+    rgba(179, 229, 245, 0.4)  /* Hellblau */
+    );
+}
 </style>

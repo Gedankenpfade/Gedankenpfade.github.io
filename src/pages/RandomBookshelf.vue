@@ -16,7 +16,7 @@ onMounted(async () => {
     <div class="content-container">
     <div class="shelf">
             <div v-for="book in bookStore.otherBooks" class="book-details">
-                <div class="cover-img">
+                <div class="book-cover">
 
                 </div>
                 <div class="bookshelf-description">

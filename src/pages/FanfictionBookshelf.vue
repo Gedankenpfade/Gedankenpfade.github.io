@@ -13,11 +13,11 @@ onMounted(async () => {
 
 <template>
     <TheHeader type="ff" title="Fanfiction" />
-
+    <div class="background-container ff-bg">
     <div class="content-container">
         <div class="shelf">
             <div v-for="book in bookStore.ffBooks" class="book-details">
-                <div class="cover-img">
+                <div class="book-cover">
 
                 </div>
                 <div class="bookshelf-description">
@@ -43,9 +43,11 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-
+    </div>
     <TheFooter type="ff" title="" />
 </template>
-
-<style scoped>
+<style>
+.ff-bg {
+    background-color:  #5d7aca
+}
 </style>

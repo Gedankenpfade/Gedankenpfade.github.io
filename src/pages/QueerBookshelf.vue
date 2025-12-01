@@ -13,42 +13,43 @@ onMounted(async () => {
 
 <template>
     <TheHeader type="queer" title="Queere Werke" />
-    <div class="content-container">
-        <!-- <div class="bookshelf" style="margin-top: 1rem;">
-                <a v-for="_ in books" href="" class="book">
-                    <img src="../assets/Regenbogen-OS.jpg" class="cover" alt="Regenbogen-Oneshots von Lily Evans-Granger"/>
-                    <p class="bookinfo">Regenbogen-Oneshots</p>
-                </a>
-        </div> -->
-        <div class="shelf">
-            <div v-for="book in bookStore.queerBooks" class="book-details">
-                <div class="cover-img">
+    <div class="background-container queer-bg">
+        <div class="content-container">
+            <!-- <div class="bookshelf" style="margin-top: 1rem;">
+                    <a v-for="_ in books" href="" class="book">
+                        <img src="../assets/Regenbogen-OS.jpg" class="cover" alt="Regenbogen-Oneshots von Lily Evans-Granger"/>
+                        <p class="bookinfo">Regenbogen-Oneshots</p>
+                    </a>
+            </div> -->
+            <div class="shelf">
+                <div v-for="book in bookStore.queerBooks" class="book-details">
+                    <div class="book-cover">
 
-                </div>
-                <div class="bookshelf-description">
-                    <p class="info-group">
-                        <span>Titel: </span>
-                        <span>{{ book.title }}</span>
-                    </p>
+                    </div>
+                    <div class="bookshelf-description">
+                        <p class="info-group">
+                            <span>Titel: </span>
+                            <span>{{ book.title }}</span>
+                        </p>
 
-                    <p class="info-group">
-                        <span>Autor: </span>
-                        <span>{{ book.author }}</span>
-                    </p>
+                        <p class="info-group">
+                            <span>Autor: </span>
+                            <span>{{ book.author }}</span>
+                        </p>
+                        
+                        <p class="info-group">
+                            <span>Beschreibung: </span>
+                            <span>{{ book.description }}</span>
+                        </p>
+
+                        <RouterLink :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">Jetzt lesen -> </RouterLink>
+                    </div>
+
                     
-                    <p class="info-group">
-                        <span>Beschreibung: </span>
-                        <span>{{ book.description }}</span>
-                    </p>
-
-                    <RouterLink :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">Jetzt lesen -> </RouterLink>
                 </div>
-
-                
             </div>
         </div>
     </div>
-
     <TheFooter type="queer" title="" />
 </template>
 
@@ -60,20 +61,36 @@ onMounted(async () => {
     gap: 1rem;
     margin-top: 1rem;
 }
+
 .book-details {
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    border: 1px solid gray;
+    flex-direction: column;
+    width: 80%;
+    align-self: center;
+
     border-radius: 0.5rem;
     padding: 1rem;
-}
+    gap: 1rem;
+    border: 1px solid gray;
 
-.cover-img {
-    height: 400px;
-    width: 250px;
-    background-color: beige;
-    border-radius: 0.5rem;
+    @media screen and (min-width: 680px) {
+        
+    }
+
+    @media screen and (min-width: 1024px) {
+        flex-direction: row;
+    }
+
+    @media screen and (min-width: 1512px) {
+
+    }
+
+    @media screen and (min-width: 2056px) {
+       
+    }
+    
+    
+    
 }
 
 .bookshelf-description {
@@ -82,6 +99,23 @@ onMounted(async () => {
     align-items: flex-start;
     gap: 0.5rem;
     margin-top: 0.5rem;
+}
+
+.queer-bg {
+    background: linear-gradient(
+    to bottom right,
+    rgba(255, 0, 0, 0.4),
+    rgba(255, 127, 0, 0.4),
+    rgba(255, 255, 0, 0.4),
+    rgba(0, 255, 0, 0.4),
+    rgba(0, 0, 255, 0.4),
+    rgba(148, 0, 211, 0.4),
+    rgba(0, 0, 255, 0.4),
+    rgba(0, 255, 0, 0.4),
+    rgba(255, 255, 0, 0.4),
+    rgba(255, 127, 0, 0.4),
+    rgba(255, 0, 0, 0.4)
+  );
 }
 </style>
 

@@ -30,7 +30,7 @@ const numOfStars = ref(20);
 <style scoped>
 footer {
   height: 5rem;
-  margin-top: 1rem;
+  /*margin-top: 1rem;*/
 }
 
 .main-footer {
@@ -193,7 +193,7 @@ footer {
 }
 
 .glasschild-footer {
-  background: linear-gradient(to bottom, #37cdff, #b3e5f5);
+  background: linear-gradient(to bottom, #b3e5f5, #37cdff);
 }
 
 .footer-text {

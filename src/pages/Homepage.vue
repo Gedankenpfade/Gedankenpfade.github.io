@@ -35,40 +35,48 @@ function handleLogin() {
 
 <template>
     <TheHeader title="Gedankenpfade" type="main" @login="handleLogin()"/>
-    <div class="content-container">
-        <div class="bookshelf">
-            <h3>Queere Werke</h3>
-            <div class="shelf-layer">
-                <div v-for="book in bookStore.queerBooks" class="book">{{ book.title }} 
-                    {{ book.author }}
+    <div class="background-container">
+        <div class="content-container">
+            <div class="bookshelf">
+                <h3>Queere Werke</h3>
+                <div class="shelf-layer">
+                    <div v-for="book in bookStore.queerBooks" class="book">{{ book.title }} 
+                        {{ book.author }}
+                    </div>
+                    <ButtonLink class="further-books" link="/queer" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
-                <ButtonLink class="further-books" link="/queer" :icon="true" text="Weitere Bücher ansehen"/>
-            </div>
 
-            <h3>Child of Glass</h3>
-            <div class="shelf-layer">
-                <div v-for="book in bookStore.glassChildBooks" class="book">{{ book.title }} 
-                    {{ book.author }}
+                <h3>Child of Glass</h3>
+                <div class="shelf-layer">
+                    <div v-for="book in bookStore.glassChildBooks" class="book">{{ book.title }} 
+                        {{ book.author }}
+                    </div>
+                    <ButtonLink class="further-books" link="/child-of-glass" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
-                <ButtonLink class="further-books" link="/child-of-glass" :icon="true" text="Weitere Bücher ansehen"/>
-            </div>
 
-            <h3>Harry Potter Fanfictions</h3>
-            <div class="shelf-layer">
-                <div v-for="book in bookStore.ffBooks" class="book">{{ book.title }}</div>
-                <ButtonLink class="further-books" link="/fanfiction" :icon="true" text="Weitere Bücher ansehen"/>
-            </div>
+                <h3>Harry Potter Fanfictions</h3>
+                <div class="shelf-layer">
+                    <!--
+                    <div v-for="book in bookStore.ffBooks" class="book">{{ book.title }}</div>
+                    <ButtonLink class="further-books" link="/fanfiction" :icon="true" text="Weitere Bücher ansehen"/>
+                    -->
+                </div>
 
-            <h3>Autismus</h3>
-            <div class="shelf-layer">
-                <div v-for="book in bookStore.autismBooks" class="book">{{ book.title }}</div>
-                <ButtonLink class="further-books" link="/autismus" :icon="true" text="Weitere Bücher ansehen"/>
-            </div>
+                <h3>Autismus</h3>
+                <div class="shelf-layer">
+                    <!--
+                    <div v-for="book in bookStore.autismBooks" class="book">{{ book.title }}</div>
+                    <ButtonLink class="further-books" link="/autismus" :icon="true" text="Weitere Bücher ansehen"/>
+                    -->
+                </div>
 
-            <h3>Andere</h3>
-            <div class="shelf-layer">
-                <div v-for="book in bookStore.otherBooks" class="book">{{ book.title }}</div>
-                <ButtonLink class="further-books" link="/andere" :icon="true" text="Weitere Bücher ansehen"/>
+                <!--
+                <h3>Andere</h3>
+                <div class="shelf-layer">
+                    <div v-for="book in bookStore.otherBooks" class="book">{{ book.title }}</div>
+                    <ButtonLink class="further-books" link="/andere" :icon="true" text="Weitere Bücher ansehen"/>
+                </div>
+                -->
             </div>
         </div>
     </div>
@@ -81,8 +89,8 @@ function handleLogin() {
 .bookshelf  {
     display: flex;
     flex-direction: column;
-    width: 70%;
     align-self: center;
+    width: 90%;
 }
 
 .shelf-layer {

@@ -13,10 +13,11 @@ onMounted(async () => {
 
 <template>
     <TheHeader type="autism" title="Autismus (er)leben" />
+    <div class="background-container autism-bg">
     <div class="content-container">
     <div class="shelf">
             <div v-for="book in bookStore.autismBooks" class="book-details">
-                <div class="cover-img">
+                <div class="book-cover">
 
                 </div>
                 <div class="bookshelf-description">
@@ -42,9 +43,15 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-
+</div>
     <TheFooter type="autism" title="" />
 </template>
 
-<style scoped>
+<style>
+.autism-bg {
+    background: radial-gradient(circle, 
+    rgba(41, 3, 68, 0.4),
+    rgba(81, 33, 121, 0.4) 
+);
+}
 </style>
