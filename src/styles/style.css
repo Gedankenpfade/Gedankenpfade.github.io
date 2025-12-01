@@ -33,6 +33,19 @@ hr {
     width: 40%;
 }
 
+.background-container {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.background-container::-webkit-scrollbar {
+  display: none; /* Definiere das Pseudoelement außerhalb der Klasse */
+}
+
 .content-container {
   display: flex;
   flex-direction: column;
@@ -42,12 +55,50 @@ hr {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 
-  @media screen and (min-width: 1512px) {
-      width: 30%;
+  width: 100%;
 
+  @media screen and (min-width: 680px) {
+    width: 90%;
+  }
+
+  @media screen and (min-width: 1024px) {
+      width: 80%;
+  }
+
+  @media screen and (min-width: 1512px) {
+      width: 50%;
+  }
+
+  @media screen and (min-width: 2056px) {
+      width: 30%;
   }
 }
 
 .content-container::-webkit-scrollbar {
   display: none; /* Definiere das Pseudoelement außerhalb der Klasse */
+}
+
+/* Book Styles: */
+.book-cover {
+  border: 1px solid gray;
+  border-radius: 4px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+  transform: rotateY(0deg);
+  transition: transform 0.5s;
+
+  height: 400px;
+    width: 250px;
+    background-color: beige;
+    border-radius: 0.5rem;
+
+    align-self: center;
+
+    @media screen and (min-width: 1024px) {
+        align-self: flex-start;
+    }
+
+    &:hover {
+      transform: rotateY(-20deg);
+    }
 }
