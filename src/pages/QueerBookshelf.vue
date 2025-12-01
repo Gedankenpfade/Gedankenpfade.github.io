@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import TheFooter from '../components/TheFooter.vue';
 import TheHeader from '../components/TheHeader.vue';
 import { useBooksStore } from '../stores/useBooks';
+import BookDescription from '../components/BookDescription.vue';
 
 const bookStore = useBooksStore();
 
@@ -15,38 +16,8 @@ onMounted(async () => {
     <TheHeader type="queer" title="Queere Werke" />
     <div class="background-container queer-bg">
         <div class="content-container">
-            <!-- <div class="bookshelf" style="margin-top: 1rem;">
-                    <a v-for="_ in books" href="" class="book">
-                        <img src="../assets/Regenbogen-OS.jpg" class="cover" alt="Regenbogen-Oneshots von Lily Evans-Granger"/>
-                        <p class="bookinfo">Regenbogen-Oneshots</p>
-                    </a>
-            </div> -->
             <div class="shelf">
-                <div v-for="book in bookStore.queerBooks" class="book-details">
-                    <div class="book-cover">
-
-                    </div>
-                    <div class="bookshelf-description">
-                        <p class="info-group">
-                            <span>Titel: </span>
-                            <span>{{ book.title }}</span>
-                        </p>
-
-                        <p class="info-group">
-                            <span>Autor: </span>
-                            <span>{{ book.author }}</span>
-                        </p>
-                        
-                        <p class="info-group">
-                            <span>Beschreibung: </span>
-                            <span>{{ book.description }}</span>
-                        </p>
-
-                        <RouterLink :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">Jetzt lesen -> </RouterLink>
-                    </div>
-
-                    
-                </div>
+                <BookDescription v-for="b in bookStore.queerBooks" :book="b" />
             </div>
         </div>
     </div>
@@ -60,45 +31,7 @@ onMounted(async () => {
 
     gap: 1rem;
     margin-top: 1rem;
-}
-
-.book-details {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    align-self: center;
-
-    border-radius: 0.5rem;
-    padding: 1rem;
-    gap: 1rem;
-    border: 1px solid gray;
-
-    @media screen and (min-width: 680px) {
-        
-    }
-
-    @media screen and (min-width: 1024px) {
-        flex-direction: row;
-    }
-
-    @media screen and (min-width: 1512px) {
-
-    }
-
-    @media screen and (min-width: 2056px) {
-       
-    }
-    
-    
-    
-}
-
-.bookshelf-description {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .queer-bg {

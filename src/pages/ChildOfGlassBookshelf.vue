@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import TheFooter from '../components/TheFooter.vue';
 import TheHeader from '../components/TheHeader.vue';
 import { useBooksStore } from '../stores/useBooks';
+import BookDescription from '../components/BookDescription.vue';
 
 const bookStore = useBooksStore();
 
@@ -16,30 +17,8 @@ onMounted(async () => {
     <div class="background-container glasschild-bg">
     <div class="content-container">
     <div class="shelf">
-            <div v-for="book in bookStore.glassChildBooks" class="book-details">
-                <div class="book-cover">
-
-                </div>
-                <div class="bookshelf-description">
-                    <p class="info-group">
-                        <span>Titel: </span>
-                        <span>{{ book.title }}</span>
-                    </p>
-
-                    <p class="info-group">
-                        <span>Autor: </span>
-                        <span>{{ book.author }}</span>
-                    </p>
-                    
-                    <p class="info-group">
-                        <span>Beschreibung: </span>
-                        <span>{{ book.description }}</span>
-                    </p>
-
-                    <RouterLink :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">Jetzt lesen -> </RouterLink>
-                </div>
-            </div>
-        </div>
+        <BookDescription v-for="b in bookStore.glassChildBooks" :book="b" />
+    </div>
     </div>
 </div>
     <TheFooter type="glasschild" title="" />

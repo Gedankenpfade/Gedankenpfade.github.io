@@ -1,0 +1,8 @@
+- Bücher hinzufügen 
+- Kapitel hinzufügen
+- Schriftart
+- dynamische Schriftgröße
+- Cover speichern + laden
+- automatisch sinnvolle Anzeige im Homepage-Regal
+- Direktzugriff auf versch. Links?
+- Hübsche Buttons

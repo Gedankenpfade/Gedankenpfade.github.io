@@ -35,22 +35,24 @@ function handleLogin() {
 
 <template>
     <TheHeader title="Gedankenpfade" type="main" @login="handleLogin()"/>
-    <div class="background-container">
+    <div class="background-container hp-bg">
         <div class="content-container">
             <div class="bookshelf">
                 <h3>Queere Werke</h3>
                 <div class="shelf-layer">
-                    <div v-for="book in bookStore.queerBooks" class="book">{{ book.title }} 
-                        {{ book.author }}
-                    </div>
+                    <RouterLink  v-for="book in bookStore.queerBooks" class="book" :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">
+                        <span>{{ book.title }}</span> 
+                        <span>{{ book.author }}</span>
+                    </RouterLink>
                     <ButtonLink class="further-books" link="/queer" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
 
                 <h3>Child of Glass</h3>
                 <div class="shelf-layer">
-                    <div v-for="book in bookStore.glassChildBooks" class="book">{{ book.title }} 
-                        {{ book.author }}
-                    </div>
+                    <RouterLink  v-for="book in bookStore.glassChildBooks" class="book" :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">
+                        <span>{{ book.title }}</span> 
+                        <span>{{ book.author }}</span>
+                    </RouterLink>
                     <ButtonLink class="further-books" link="/child-of-glass" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
 
@@ -86,11 +88,17 @@ function handleLogin() {
 </template>
 
 <style scoped>
+.hp-bg {
+    background-color: rgba(255, 196, 0, 0.39);
+}
+
 .bookshelf  {
     display: flex;
     flex-direction: column;
     align-self: center;
     width: 90%;
+
+    margin-top: 1rem;
 }
 
 .shelf-layer {
@@ -108,17 +116,17 @@ function handleLogin() {
 }
 
 .book {
+    display: flex;
+    flex-direction: column; /* Inhalte untereinander anordnen */
+    justify-content: space-between; /* Platz zwischen Titel und Autor schaffen */
+    
     margin: 0.5rem;
     background-color: wheat;
     width: 5rem;
     height: 7.3rem;
     border-radius: 0.25rem;
-    /* ToDo: Platzierung optimieren */
-
-    object-fit: cover;
 
     border: 1px solid gray;
-    border-radius: 4px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 
     transform: rotateY(0deg);
