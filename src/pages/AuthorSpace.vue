@@ -1,45 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-/* import { useAuthorStore } from '../stores/useAuthor';*/
+import { onMounted, ref } from 'vue';
 import type { Book } from "../types/book.ts";
 import AddNewBook from '../modals/AddNewBook.vue';
 import TheHeader from '../components/TheHeader.vue';
 import TheFooter from '../components/TheFooter.vue';
-import ChangeBookinfo from '../modals/ChangeBookinfo.vue';
 import { useAuthStore } from '../stores/useAuth.ts';
 import Login from '../modals/Login.vue';
 import { useUserStore } from '../stores/useUsers.ts';
+import { useBooksStore } from '../stores/useBooks.ts';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const bookStore = useBooksStore();
+
+onMounted(async () => {
+    // ToDo Bücher vom richtigen Autor laden!!!
+    await bookStore.getBooksFromAuthor('Lily Evans-Granger') // getBooksFromAuthor(userStore.loggedinUser?.username || '');
+})
 
 const addNewBook = ref(false);
-const changeBookinfo = ref(false);
-
-const books = ref([
-    {
-    } as Book,
-    {
-    } as Book,
-    {
-    } as Book,
-] as Book[]) 
-/* const bookToChange = ref({
-    title: "test",
-    id: 5,
-    chapters: 0
-} as Book)
-provide("bookToChange", bookToChange.value); */
 
 const showError = ref(false);
-
-function setBook(id: number) {
-/*     const tmp = books.value.find(book => book.id === id) as Book;
-    bookToChange.value = tmp;
-    console.log("bookToChange set: ", bookToChange.value)*/
-
-    changeBookinfo.value = true; 
-}
 </script>
 
 <template>
@@ -59,9 +40,8 @@ function setBook(id: number) {
                 <button @click="addNewBook = true">Neues Buch anlegen</button>
             </div>
             <ul class="booklist">
-                <li v-for="book in books">{{ book.title }}: <!-- {{ book.chapters }} --> Kapitel
-                    <button>Infos bearbeiten</button>  <!-- @click="setBook(book.id)" -->
-                    <button>Kapitel bearbeiten</button>
+                <li v-for="book in bookStore.authorsBooks">{{ book.title }}: {{ book.content.length }} Kapitel
+                    <RouterLink :to="{name:'Buch bearbeiten', params:{title: book.title.toString()}}">Bearbeiten</RouterLink>
                 </li>
             </ul>
         </div>
@@ -69,8 +49,6 @@ function setBook(id: number) {
     </div>
 
     <AddNewBook v-if="addNewBook" @closeModal="addNewBook = false" />
-
-    <ChangeBookinfo v-if="changeBookinfo" @closeModal="changeBookinfo = false"/>
     
     <div v-if="!authStore.currentUser" class="login modal-overlay">
         <Login />

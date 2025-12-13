@@ -11,8 +11,7 @@ const emit = defineEmits<{
     (e: 'closeModal'): void;
 }>();
 
-const categories = ref(["Queer", "Fanfiction", "Autismus", "Anderes"])
-const chosenCategory = ref("")
+const categories = ref(["Autismus",  "Fanfiction", "Glaskind", "Queer", "Anderes"])
 
 const showError = ref(false);
 const error = ref([] as String[])
@@ -21,6 +20,8 @@ const newBook = ref({
     title: "",
     author: "",
     description: "",
+    category: "",
+    id: -1,
     content: [] as Chapter[],
     createdBy: ''
 } as Book)
@@ -41,14 +42,14 @@ function checkInput() {
             error.value.push("Du musst einen Titel eingeben")
             showError.value = true
         }
-        if (chosenCategory.value == "") {
+        if (newBook.value.category == "") {
             error.value.push("Du musst eine Kategorie auswählen!")
             showError.value = true
         }
 
-        newBook.value.createdBy = userStore.loggedinUser.username
+        newBook.value.createdBy = userStore.loggedinUser.username.toString();
         if (newBook.value.author == "") {
-            newBook.value.author = userStore.loggedinUser.username;
+            newBook.value.author = userStore.loggedinUser.username.toString();
         }
 
         // Kapitel-Check
@@ -69,7 +70,7 @@ function checkInput() {
 
     if (!showError.value) {
         console.log("Buch: ", newBook.value);
-        bookStore.addNewBook(chosenCategory.value, newBook.value)
+        bookStore.addNewBook(newBook.value)
         emit("closeModal");
     }
 }
@@ -87,7 +88,7 @@ function checkInput() {
 
                 <div>
                     <label>Kategorie: </label>
-                    <select name="category" id="category" v-model="chosenCategory">
+                    <select name="category" id="category" v-model="newBook.category">
                         <option v-for="k in categories" :value="k">{{ k }}</option>
                     </select>
                 </div>

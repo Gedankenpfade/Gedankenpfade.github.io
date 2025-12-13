@@ -9,6 +9,7 @@ import Book from '../pages/Book.vue';
 import Chapter from '../pages/Chapter.vue'
 import RandomBookshelf from '../pages/RandomBookshelf.vue';
 import ChildOfGlassBookshelf from '../pages/ChildOfGlassBookshelf.vue'
+import EditBook from '../pages/EditBook.vue';
 
 const routes = [
   {
@@ -55,6 +56,11 @@ const routes = [
     path: '/authorspace',
     name: 'Autorenuebersicht',
     component: AuthorSpace,
+  },
+  {
+    path: '/authorspace/edit-:title',
+    name: 'Buch bearbeiten',
+    component: EditBook,
   },
 ];
 

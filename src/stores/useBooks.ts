@@ -10,6 +10,30 @@ export const useBooksStore = defineStore('books', () => {
     const otherBooks = ref<Book[]>([]);
     const autismBooks = ref<Book[]>([]);
     const glassChildBooks = ref<Book[]>([]);
+    const allBooks = ref<Book[]>([]);
+
+    const authorsBooks = ref<Book[]>([]);
+
+    function getFirebaseCategory(c: string): string  {
+        switch (c) {
+            case "autism":
+            case "Autismus":
+                return "autism-books"
+            case "ff":
+            case "Fanfiction":
+                return "ff-books";
+            case "glasschild":
+            case "Glaskind":
+                return "glasschild-books";
+            case "other": 
+            case "Anderes":
+                return "other-books";
+            case "queer":
+            case "Queer":
+                return "queer-books";
+            default: return "unknown";
+        }
+    }
 
     async function fetchQueerBooks() {
         if (queerBooks.value.length == 0) {
@@ -27,10 +51,11 @@ export const useBooksStore = defineStore('books', () => {
                 return {
                     title: data.titel,
                     author: data.autor,
-                    //id: 0,
+                    id: data.id,
                     description: data.beschreibung,
-                    content,
                     category: data.kategorie,
+                    content,
+                    createdBy: data.erstelltVon,
                 } as Book
             }))
         }
@@ -52,10 +77,11 @@ export const useBooksStore = defineStore('books', () => {
                 return {
                     title: data.titel,
                     author: data.autor,
-                    //id: 0,
+                    id: data.id,
                     description: data.beschreibung,
-                    content,
                     category: data.kategorie,
+                    content,
+                    createdBy: data.erstelltVon,
                 } as Book
             }))
         }
@@ -77,10 +103,11 @@ export const useBooksStore = defineStore('books', () => {
                 return {
                     title: data.titel,
                     author: data.autor,
-                    //id: 0,
+                    id: data.id,
                     description: data.beschreibung,
-                    content,
                     category: data.kategorie,
+                    content,
+                    createdBy: data.erstelltVon,
                 } as Book
             }))
         }
@@ -102,10 +129,11 @@ export const useBooksStore = defineStore('books', () => {
                 return {
                     title: data.titel,
                     author: data.autor,
-                    //id: 0,
+                    id: data.id,
                     description: data.beschreibung,
-                    content,
                     category: data.kategorie,
+                    content,
+                    createdBy: data.erstelltVon,
                 } as Book
             }))
         }
@@ -127,10 +155,11 @@ export const useBooksStore = defineStore('books', () => {
                 return {
                     title: data.titel,
                     author: data.autor,
-                    //id: 0,
+                    id: data.id,
                     description: data.beschreibung,
                     category: data.kategorie,
                     content,
+                    createdBy: data.erstelltVon,
                 } as Book
             }))
         }
@@ -142,6 +171,16 @@ export const useBooksStore = defineStore('books', () => {
         await fetchOtherBooks();
         await fetchAutismBooks();
         await fetchGlassChildBooks();
+
+        // Alle Bücher aus den verschiedenen Kategorien zusammenführen
+        allBooks.value = [
+            ...queerBooks.value,
+            ...ffBooks.value,
+            ...otherBooks.value,
+            ...autismBooks.value,
+            ...glassChildBooks.value,
+        ];
+        console.log("Found " + allBooks.value.length + " books")
     }
 
     async function getBookByName(name: string, category: string): Promise<Book | null> {
@@ -175,42 +214,36 @@ export const useBooksStore = defineStore('books', () => {
         }
     }
 
-    async function addNewBook(category: string, book: Book) {
-        try {
-            let collectionRef: CollectionReference = collection(db, 'other-books');
-            const bookCategory = ref('')
-            switch (category) {
-                case "Queer": 
-                    bookCategory.value = 'queer'
-                    collectionRef = collection(db, 'queer-books');
-                    break;
-                case "Fanfiction": 
-                    bookCategory.value = 'ff';
-                    collectionRef = collection(db, 'ff-books');
-                    break;            
-                case "Autismus": 
-                    bookCategory.value = 'autism';
-                    collectionRef = collection(db, 'autism-books');
-                    break;
-                case "Anderes": 
-                    bookCategory.value = 'other'
-                    collectionRef = collection(db, 'other-books');
-                    break;
-                default: 
-                    bookCategory.value = 'other';
-                    collectionRef = collection(db, 'other-books');
-            }
+    async function getBookByAuthor(title: string, author: string): Promise<Book | null> {
+        if (allBooks.value.length == 0) {
+            await getAllBooks();
+        }
+        console.log("author: ", author);
 
+        const res = allBooks.value.find((book) => book.title === title && book.author === author);
+        console.log(res);
+        if (res != undefined) {
+            return res;
+        } else {
+            return {} as Book;
+        }
+    }
+
+    async function addNewBook(book: Book) {
+        try {
+            const fb_category = getFirebaseCategory(book.category)
             const data = {
                 autor: book.author,
                 beschreibung: book.description,
-                kategorie: bookCategory.value,
+                kategorie: fb_category.split('-')[0],
                 titel: book.title,
                 zielgruppe: '',
                 erstelltVon: book.createdBy
             }
-            // neues Dokument (Buch) anlegen:
-            const docRef = await addDoc(collectionRef, data);
+            // neues Dokument (Buch) anlegen: 
+            const docRef = doc(db, `${fb_category}`, book.title);
+            await setDoc(docRef, data);
+
             // Kapitel hinzufügen:
             const contentCollectionRef = collection(docRef, "Inhalt");
             book.content.forEach(async (chap) => {
@@ -221,9 +254,58 @@ export const useBooksStore = defineStore('books', () => {
                 })
             })
 
-            console.log("done")
+            console.log("added new book")
         } catch (error) {
             console.error("Fehler beim Hinzufügen des Buchs: ", error);
+        }
+    }
+
+    async function addChapterToBook(book: Book, chap: Chapter) {
+        try {
+            // Pfad bestimmen:
+            const category = getFirebaseCategory(book.category);
+            const bookContentRef = collection(db, `${category}/${book.title}/Inhalt`);
+            console.log("Pfad:" + `${category}/${book.title}/Inhalt`)
+
+            // neues Dokument (Kapitel) anlegen
+            await setDoc(doc(bookContentRef, "Kapitel"+chap.id.toString()), {
+                    id: chap.id,
+                    titel: chap.title,
+                    text: chap.content
+                })
+
+            authorsBooks.value.forEach((b) => {
+                if (b.title === book.title) {
+                    b.content.push(chap);
+                }
+            })
+
+            // ToDo! 
+            // if (id vorhanden) { Kapitel verändern }
+            // else { neues Kapitel hinzufügen }
+            console.log("added new chapter")
+        } catch (e) {
+            console.error("Fehler: ", e);
+        }
+    }
+
+    async function changeBookInformation(book: Book) {
+        try {
+            console.log("changing information of book")
+        } catch (e) {
+            console.error("Fehler beim Ändern der Informationen des Buchs! ", e)
+        }
+    }
+
+    async function getBooksFromAuthor(author: String) {
+        if (authorsBooks.value.length == 0) {
+            await getAllBooks();
+            
+            allBooks.value.forEach((b) => {
+                if (b.createdBy === author) {
+                    authorsBooks.value.push(b);
+                }
+            })
         }
     }
 
@@ -235,12 +317,17 @@ export const useBooksStore = defineStore('books', () => {
         fetchAutismBooks,
         fetchGlassChildBooks,
         getAllBooks,
+        getBooksFromAuthor,
+        getBookByName,
+        getBookByAuthor,
+        addNewBook,
+        addChapterToBook,
+        changeBookInformation,
         queerBooks,
         ffBooks,
         otherBooks,
         autismBooks,
         glassChildBooks,
-        getBookByName,
-        addNewBook,
+        authorsBooks        
     }
 })

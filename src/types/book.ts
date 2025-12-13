@@ -5,11 +5,11 @@ export type Chapter = {
 }
 
 export type Book = {
-    title: String;
-    author: String;
-    //id: number;
+    title: string;
+    author: string;
+    id: number;
     description: string;
     content: Chapter[];
-    createdBy: String;
-    category: String;
+    createdBy: string;
+    category: string;
 };
