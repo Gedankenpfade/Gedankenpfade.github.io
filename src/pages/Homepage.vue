@@ -29,6 +29,7 @@ function handleLogin() {
         showLogin.value = true;
     } else {
         authStore.logout();
+        // bookStore.authorsBooks = []; // ToDo - bei Logout Autorenbereich leeren!
     }
 }
 </script>
@@ -56,29 +57,35 @@ function handleLogin() {
                     <ButtonLink class="further-books" link="/child-of-glass" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
 
+                
                 <h3>Harry Potter Fanfictions</h3>
                 <div class="shelf-layer">
-                    <!--
-                    <div v-for="book in bookStore.ffBooks" class="book">{{ book.title }}</div>
+                    <RouterLink  v-for="book in bookStore.ffBooks" class="book" :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">
+                        <span>{{ book.title }}</span> 
+                        <span>{{ book.author }}</span>
+                    </RouterLink>
                     <ButtonLink class="further-books" link="/fanfiction" :icon="true" text="Weitere Bücher ansehen"/>
-                    -->
                 </div>
 
                 <h3>Autismus</h3>
                 <div class="shelf-layer">
-                    <!--
-                    <div v-for="book in bookStore.autismBooks" class="book">{{ book.title }}</div>
+                    <RouterLink  v-for="book in bookStore.autismBooks" class="book" :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">
+                        <span>{{ book.title }}</span> 
+                        <span>{{ book.author }}</span>
+                    </RouterLink>
                     <ButtonLink class="further-books" link="/autismus" :icon="true" text="Weitere Bücher ansehen"/>
-                    -->
+                    
                 </div>
 
-                <!--
                 <h3>Andere</h3>
                 <div class="shelf-layer">
-                    <div v-for="book in bookStore.otherBooks" class="book">{{ book.title }}</div>
+                    <RouterLink  v-for="book in bookStore.otherBooks" class="book" :to="{name:'Inhaltsverzeichnis', params: {category: book.category.toString(), title:book.title.toString()}}">
+                        <span>{{ book.title }}</span> 
+                        <span>{{ book.author }}</span>
+                    </RouterLink>
                     <ButtonLink class="further-books" link="/andere" :icon="true" text="Weitere Bücher ansehen"/>
                 </div>
-                -->
+                
             </div>
         </div>
     </div>

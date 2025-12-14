@@ -1,6 +1,6 @@
-import { addDoc, collection,  CollectionReference,  doc, getDocs, setDoc } from "firebase/firestore";
+import { collection,  doc, getDocs, setDoc } from "firebase/firestore";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 import { db } from "./firebase.ts";
 import type { Book, Chapter } from "../types/book.ts"
 
@@ -184,35 +184,20 @@ export const useBooksStore = defineStore('books', () => {
     }
 
     async function getBookByName(name: string, category: string): Promise<Book | null> {
-        if (category === "queer") {
-            if (queerBooks.value.length === 0) {
-                await fetchQueerBooks();
-            }
+        const res: Ref<Book | undefined> = ref(undefined);
 
-            const res = queerBooks.value.find((book) => book.title === name);
-
-            if (res === undefined) {
-                return null; // Rückgabe von null, wenn kein Buch gefunden wurde
-            } else {
-                return res; // Rückgabe des gefundenen Buches
-            }
-        } else if(category == "glasschild") {
-            if (glassChildBooks.value.length === 0) {
-                await fetchGlassChildBooks();
-            }
-
-            const res = glassChildBooks.value.find((book) => book.title === name);
-
-            if (res === undefined) {
-                return null; // Rückgabe von null, wenn kein Buch gefunden wurde
-            } else {
-                return res; // Rückgabe des gefundenen Buches
-            }
-        } else {
-            console.error("Unsupported category"); // Fehlerbehandlung für andere Kategorien
-            return null; // Rückgabe von null für nicht unterstützte Kategorien
+        if (allBooks.value.length === 0) {
+            await getAllBooks();
         }
-    }
+        res.value = allBooks.value.find((book) => book.title === name && book.category === category);
+
+        if (res.value != undefined) {
+            return res.value; // Rückgabe des gefundenen Buches  
+        } else {
+            console.log("Book not found.")
+            return null; // Rückgabe von null, wenn kein Buch gefunden wurde
+        }
+}
 
     async function getBookByAuthor(title: string, author: string): Promise<Book | null> {
         if (allBooks.value.length == 0) {
@@ -253,6 +238,9 @@ export const useBooksStore = defineStore('books', () => {
                     text: chap.content
                 })
             })
+
+            // zu Store hinzufügen
+            authorsBooks.value.push(book);
 
             console.log("added new book")
         } catch (error) {
@@ -300,7 +288,7 @@ export const useBooksStore = defineStore('books', () => {
     async function getBooksFromAuthor(author: String) {
         if (authorsBooks.value.length == 0) {
             await getAllBooks();
-            
+
             allBooks.value.forEach((b) => {
                 if (b.createdBy === author) {
                     authorsBooks.value.push(b);

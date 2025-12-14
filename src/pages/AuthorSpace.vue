@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { Book } from "../types/book.ts";
 import AddNewBook from '../modals/AddNewBook.vue';
 import TheHeader from '../components/TheHeader.vue';
 import TheFooter from '../components/TheFooter.vue';
@@ -14,13 +13,21 @@ const userStore = useUserStore();
 const bookStore = useBooksStore();
 
 onMounted(async () => {
-    // ToDo Bücher vom richtigen Autor laden!!!
-    await bookStore.getBooksFromAuthor('Lily Evans-Granger') // getBooksFromAuthor(userStore.loggedinUser?.username || '');
+    if (authStore.currentUser) {
+        getBooks();
+    }
 })
 
 const addNewBook = ref(false);
 
 const showError = ref(false);
+
+async function getBooks() {
+    console.log("getting books...")
+    await bookStore.getAllBooks();
+    const authorName = userStore.loggedinUser ? userStore.loggedinUser.username : "";
+    await bookStore.getBooksFromAuthor(authorName);
+}
 </script>
 
 <template>
@@ -51,7 +58,7 @@ const showError = ref(false);
     <AddNewBook v-if="addNewBook" @closeModal="addNewBook = false" />
     
     <div v-if="!authStore.currentUser" class="login modal-overlay">
-        <Login />
+        <Login @closeModal="getBooks()" />
     </div>
 </template>
 

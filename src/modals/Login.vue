@@ -21,6 +21,7 @@ const error = authStore.error;
 
 function login() {
     authStore.login(email.value, password.value);
+    console.log("logged in")
     emit('closeModal')
 }
 </script>
