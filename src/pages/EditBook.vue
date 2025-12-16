@@ -23,8 +23,8 @@ onMounted(async () => {
     const titleAsString = route.params.title as string
 
     if (authStore.currentUser) {
-        const authorAsString = userStore.loggedinUser?.username as string
-        currentBook.value = await bookStore.getBookByAuthor(titleAsString, authorAsString) || {} as Book;
+        const creatorAsString = userStore.loggedinUser?.username as string
+        currentBook.value = await bookStore.getBookByCreator(titleAsString, creatorAsString) || {} as Book;
         currentChapter.value = currentBook.value?.content[0] || {} as Chapter;
     } else {
         console.log("currentUser fehlt")

@@ -12,7 +12,7 @@ export const useBooksStore = defineStore('books', () => {
     const glassChildBooks = ref<Book[]>([]);
     const allBooks = ref<Book[]>([]);
 
-    const authorsBooks = ref<Book[]>([]);
+    const creatorsBooks = ref<Book[]>([]);
 
     function getFirebaseCategory(c: string): string  {
         switch (c) {
@@ -199,13 +199,14 @@ export const useBooksStore = defineStore('books', () => {
         }
 }
 
-    async function getBookByAuthor(title: string, author: string): Promise<Book | null> {
-        if (allBooks.value.length == 0) {
+    async function getBookByCreator(title: string, creator: string): Promise<Book | null> {    
+        if (allBooks.value.length === 0) {
             await getAllBooks();
         }
-        console.log("author: ", author);
 
-        const res = allBooks.value.find((book) => book.title === title && book.author === author);
+        console.log("creator: ", creator);
+
+        const res = allBooks.value.find((book) => book.title === title && book.createdBy === creator);
         console.log(res);
         if (res != undefined) {
             return res;
@@ -285,13 +286,13 @@ export const useBooksStore = defineStore('books', () => {
         }
     }
 
-    async function getBooksFromAuthor(author: String) {
-        if (authorsBooks.value.length == 0) {
+    async function getBooksFromCreator(creator: String) {
+        if (creatorsBooks.value.length == 0) {
             await getAllBooks();
 
             allBooks.value.forEach((b) => {
-                if (b.createdBy === author) {
-                    authorsBooks.value.push(b);
+                if (b.createdBy === creator) {
+                    creatorsBooks.value.push(b);
                 }
             })
         }
@@ -305,9 +306,9 @@ export const useBooksStore = defineStore('books', () => {
         fetchAutismBooks,
         fetchGlassChildBooks,
         getAllBooks,
-        getBooksFromAuthor,
+        getBooksFromCreator,
         getBookByName,
-        getBookByAuthor,
+        getBookByCreator,
         addNewBook,
         addChapterToBook,
         changeBookInformation,
@@ -316,6 +317,6 @@ export const useBooksStore = defineStore('books', () => {
         otherBooks,
         autismBooks,
         glassChildBooks,
-        authorsBooks        
+        creatorsBooks        
     }
 })

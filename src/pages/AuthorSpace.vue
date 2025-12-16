@@ -26,7 +26,7 @@ async function getBooks() {
     console.log("getting books...")
     await bookStore.getAllBooks();
     const authorName = userStore.loggedinUser ? userStore.loggedinUser.username : "";
-    await bookStore.getBooksFromAuthor(authorName);
+    await bookStore.getBooksFromCreator(authorName);
 }
 </script>
 
@@ -47,7 +47,7 @@ async function getBooks() {
                 <button @click="addNewBook = true">Neues Buch anlegen</button>
             </div>
             <ul class="booklist">
-                <li v-for="book in bookStore.authorsBooks">{{ book.title }}: {{ book.content.length }} Kapitel
+                <li v-for="book in bookStore.creatorsBooks">{{ book.title }}: {{ book.content.length }} Kapitel
                     <RouterLink :to="{name:'Buch bearbeiten', params:{title: book.title.toString()}}">Bearbeiten</RouterLink>
                 </li>
             </ul>
